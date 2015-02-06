@@ -1,0 +1,18 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  hello: "Hello world"
+  activerecord:
+    models:
+      attempt: Attempt
+    attributes:
+      attempt:
+        attempt: "A guess"
+  simple_captcha:
+    label: "Enter the code above"
+    message:
+      default: 'Secret code did not match with the Image'
+      user: "This secret image and code are different"
+  
+      

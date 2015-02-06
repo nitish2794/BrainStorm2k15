@@ -1,0 +1,32 @@
+.row
+  .span11.offset2
+    %table.table.table-striped.frame
+      %thead
+        %th Position
+        - if current_user and current_user.admin?
+          %th User
+        %th Name
+        %th College
+        %th #Score
+      -@users.each_with_index do |user, index|
+        %tr{ :class => if_this_is_you(user) }
+          - if @page
+            %td= (40 * @page.to_i) + index + 1
+          -else  
+            %td= index + 1
+          - if current_user and current_user.admin?
+            %td= user.email
+            -if user.link and user.provider.eql? 'facebook'
+              %td= link_to user.name, user.link, :target => :blank
+            -else
+              %td= user.name
+          -else  
+            %td= user.name
+          %td= user.college.name if user.college
+          %td= user.score - 1
+          -if current_user and current_user.admin? and !user.admin?
+            %td=link_to "Kick", user_destroy_path(user), :method => :delete, :data => {:confirm => "Are you sure?"}, :class => 'btn-primary btn-inverse btn-small'
+            %td=link_to "View", view_attempts_path(user)
+            %td=link_to "|Analyze", observe_get_path(user)
+    = will_paginate @users
+    

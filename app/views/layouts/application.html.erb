@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="description" content="BrainStorm 2013 - Online treasure hunt event! Claim prizes at stake">
+
+    <link href='http://fonts.googleapis.com/css?family=Wellfleet|Freckle+Face' rel='stylesheet' type='text/css'>    
+    <title><%= insert_title(yield(:title)) %></title>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <% if params['action'].eql?('home') %>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=296188060509628";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+    <% end %>
+    <header class="navbar navbar-fixed-top navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container">
+          <%= link_to "BrainStorm", root_path, id: 'logo' %>
+          <nav>
+            <ul class = "nav nav-pills pull-right">
+              <li class="<%= 'active' if params['action'].eql?('home') %>"><%= link_to "Home", home_path %></li>
+              <li class="<%= alert_active('action', 'fame') %>"><%= link_to "LeaderBoard", fame_path %></li>
+              <li class="<%= alert_active('action', 'rules') %>"><%= link_to "Rules", rules_path %></li>
+              <li><%= link_to "Forum", "http://www.facebook.com/pages/Brainstorm-Avensis-2013/135456353292529?id=135456353292529&sk=app_202980683107053", :target => :blank %></li>
+              <% if current_user and current_user.admin? %>
+              <li class="<%= alert_active('action', 'admin') %>"><%= link_to "Admin", admin_path %></li>
+              <li class="<%= alert_active('action', 'analytics')
+              %>"><%= link_to "Analytics", analytics_path %></li>
+              <% end %>
+              <% if user_signed_in? %>
+              <li><%= link_to "Play", play_path %></li>
+              <li><%= link_to "SignOut", destroy_user_session_path,
+                      :method => :delete %></li>
+              <% else %>
+              <li class="<%= alert_active('controller', 'devise/sessions') %>"><%= link_to "Signin", user_session_path %></li>
+              <li class="<%= alert_active('controller', 'devise/registrations') %>"><%= link_to "Register", register_path %></li>
+              <% end %>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <% unless user_signed_in? %>
+      <div id ="facebook-button">
+      <%= link_to image_tag("facebook-button.png"),
+          user_omniauth_authorize_path(:facebook) %>
+      </div>
+      <% else %>
+      <%= current_user.name %>
+      <% end %>
+      <% flash.each do |key, value| %>
+      <div class="alert alert-<%=key%>">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <%= value %></div>
+      <% end %>
+      <%= yield %>
+      <footer class="footer">
+
+        <nav>
+          <ul>
+            <li><a href="#">Avensis 2013</a></li>
+            <li><%= link_to "Privacy Policy", policy_path %></li>
+            <li><%= link_to "Team", team_path %></li>
+            <li><%= link_to "Contact", contact_path %></li>
+          </ul>
+        </nav>
+      </footer>
+
+      <%= debug(params) if Rails.env.development? %>
+    </div>
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-39155744-1']);
+      _gaq.push(['_setDomainName', 'bstorm.in']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>

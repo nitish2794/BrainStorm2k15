@@ -1,0 +1,28 @@
+-provide(:title, "Analytics Board")
+.hide_div_toggle Hide/Show Registration/Day chart
+=content_tag :div, "", id: "registration_chart", data: { registrations: @registrations }
+.hide_div_toggle Hide/Show colleges' scores and registrations chart
+=content_tag :div, "", id: "colleges_bar_chart", data: { colleges: @colleges }
+.hide_div_toggle Hide/Show colleges' participation% chart
+=content_tag :div, "", id: "colleges_donut", data: { colleges: donut_chart(@colleges) }
+.hide_div_toggle Hide/Show Facebook/Manual signups
+=content_tag :div, "", id: "fb_non_fb_users_chart", data: { fb: @fb_non_fb_users }
+.hide_div_toggle Hide/Show colleges' frequent sign-ins chart
+=content_tag :div, "", id: "colleges_signins"
+.hide_div_toggle Hide/Show Level vs Attempts chart
+=content_tag :div, "", id: "level_attempt_chart", data: { attempts: @level_attempts }
+.hide_div_toggle Hide/Show Attempts per level pie
+=content_tag :div, "", id: "attempts_per_level_chart", data: { attempts: @attempts_per_level }
+.hide_div_toggle Hide/Show Attempts per level pie
+=content_tag :div, "", id: "attempts_per_level_line_chart"
+Total Registrations:
+= User.count
+Total attempts made so far:
+= Attempt.count
+
+.row
+  .span6.offset4
+    =form_for(:observe, :url => observe_path) do |f|
+      =f.label :id, "Enter User ID"
+      =f.text_field :id, :placeholder => "Click on view from leaderboard against user and note it's id"
+      =f.submit "Observe"

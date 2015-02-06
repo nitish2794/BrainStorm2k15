@@ -1,0 +1,44 @@
+-provide(:title, "Avensis 2013")
+.row
+  .center.head
+    .row
+      .span12.offset2
+        =image_tag "bs_l2.png"
+        - if current_user  
+          %h3#play
+            =link_to "ENTER", play_path
+        %div{ :class => 'fb-like', :data => { :href => "http://www.facebook.com/pages/Brainstorm-Avensis-2013/135456353292529", :send => "true", :width => "450", :show_faces => "true" } }
+      -if user_signed_in?
+        =render 'partial/display_image'
+
+    %hr
+  -if @level_attempts
+    .span8.offset3
+      .hide_div_toggle Hide/Show Level vs Attempts chart
+      =content_tag :div, "", id: "level_attempt_chart", data: { attempts: @level_attempts }
+
+  .span7
+    %h2
+      What is it?
+    %p
+      <b>BrainStorm</b> is an online mind-boggling treasure hunt event to test your brain cells.
+      %br It is part of <a href="#">Avensis</a> TechFest.
+    %h2
+      How to play and compete?
+    %p
+      Simply
+      =link_to "sign up using facebook", user_omniauth_authorize_path(:facebook)
+      instantly or
+      =link_to "register here.", register_path
+  .span7
+    %h2
+      When?
+    %p
+      Go ahead and register now. BrainStorm will commence from
+      %b 14 March - 21 March
+      %br Read <a href="/rules">rules and instructions</a>.
+    %h2
+      What's in it for me?
+    %p
+      Cash prizes and goodies up for win. Raise the flag of your intellectual superiority.
+

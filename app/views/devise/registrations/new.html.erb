@@ -1,0 +1,31 @@
+<%= javascript_tag "var colleges = #{College.select('id, name').to_json }" %>
+<% provide(:title, "User Registration") %>
+<h1>Sign up</h1>
+<div class="row">
+  <div class="span7 offset4">
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+    <%= devise_error_messages! %>
+
+    <%= f.label :name %>
+    <%= f.text_field :name, :placeholder => "Enter your username" %>
+    <%= f.label :email %>
+    <%= f.email_field :email %>
+
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation %>
+
+    <%= f.label :college_name, "College/Institute name" %>
+    <%= f.text_field :college_id, :data => {:provide => "typeahead",
+    :menu => "#menu_list"}, :autocomplete => "off", :placeholder =>
+    "Start typing full name, then select from list" %>
+
+    <%= show_simple_captcha %>
+    <%= f.submit "Sign Up", :class => "btn btn-large btn-primary" %>
+    <% end %>
+
+    <%= render "devise/shared/links" %>
+  </div>
+</div>
